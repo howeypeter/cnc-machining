@@ -10,7 +10,7 @@
 #101=60.0 (length of board in inches y-axis);
 #102=0.25 (totalDepth to take DOWN z-axis, say 1/4");
 #103=0.0625 (depthEachPass, say 1/16");
-#104=0.0002 (radius of tool bit);
+#104=1.0 (radius of tool bit);
 #105=700 (spindle rpm);
 #106=1 (feedRate);
 ;
@@ -27,16 +27,13 @@ S#105 M3 (Spindle speed, Clockwise spin TBD);
 #131=0.0 (depthMilled starts zero'd out);
 WHILE [#131 LT #102] DO1
   #130=0.0 (width starts zero'd out);
-  IF [ [#102-#131] GE #103]
-    THEN
-      G01 Z-#103 (cut 1/16th inch) ;
-  ELSE
-      G01 Z-[#102-#131] (difference between depth cut and total depth);   
-  FI
-
+  IF [ [#102-#131] GE #103] THEN #1=#103;
+  IF [ [#102-#131] LT #103] THEN #1=[#102-#131];
+  G01 Z-#1 F#106 (cut 1/16th inch) ;
+  
 
   WHILE [#130 LT #100] DO2
-    G01 Y[-#101] F#106 (move/cut Y axis DOWN for length, at feed-rate of 100mm(inches)?/minute); 
+    G01 Y[-#101] F#106 (move/cut Y axis DOWN for length ; 
     G01 X#132 (cut X-over by diameter of tool);
     #130=[#130 + #132] (widthDone = widthDone + diameter of tool);
     G01 Y[#101] (cut Y axis UP length  );
@@ -44,9 +41,11 @@ WHILE [#131 LT #102] DO1
     #130=[#130 + #132] (widthDone = widthDone + diameter of tool);
   END2
 #131=[#131+#103] (depthMilled=depthMilled+depthEachPass);
-G00 Z[#102+3](lift up  a bit);
-G00 X-#100 Y#101  (rapid move the tool into position, start back at top right of board);
-G00 Z[-#102-3] (drop back down);
+G00 Z[#131+3](lift up  a bit);
+G90 (absolute position mode);
+G00 X-300.0 Y210.0 (rapid move the tool into position, start at top right of board dimensions TBD);
+G91 (relative X-axis mode);
+G00 Z[-#131-3] (drop back down);
 END1
 ;
 (wrap it up);
