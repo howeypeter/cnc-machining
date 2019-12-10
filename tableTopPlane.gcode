@@ -8,11 +8,13 @@
 (Set dimensions below:);
 #100=36.0 (width of board in inches x-axis);
 #101=60.0 (length of board in inches y-axis);
-#102=0.25 (totalDepth to take DOWN z-axis, say 1/4");
-#103=0.0625 (depthEachPass, say 1/16");
+#102=7.25 (totalDepth to take DOWN z-axis, say 1/4");
+#103=1.0625 (depthEachPass, say 1/16");
 #104=1.0 (radius of tool bit);
 #105=700 (spindle rpm);
 #106=1 (feedRate);
+
+
 ;
 #132=[#104*2] (diameter  of tool bit);
 
@@ -42,9 +44,7 @@ WHILE [#131 LT #102] DO1
   END2
 #131=[#131+#103] (depthMilled=depthMilled+depthEachPass);
 G00 Z[#131+3](lift up  a bit);
-G90 (absolute position mode);
-G00 X-300.0 Y210.0 (rapid move the tool into position, start at top right of board dimensions TBD);
-G91 (relative X-axis mode);
+G00 X-#130 (rapid move the tool into position, back at top left of board dimensions TBD);
 G00 Z[-#131-3] (drop back down);
 END1
 ;
