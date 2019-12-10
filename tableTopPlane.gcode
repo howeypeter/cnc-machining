@@ -17,16 +17,17 @@
 #132=[#104*2] (diameter  of tool bit);
 
 G20 (G20 for Imperial G21 Metric);
-S#105 M3 (Spindle speed, Clockwise spin TBD);
 G90 (absolute position mode);
 G40 P#104 (no offset, P#104 is tool radius cutting );
 G00 X-300.0 Y210.0 (rapid move the tool into position, start at top right of board dimensions TBD);
 G91 (relative X-axis mode);
 M01 (operator checks dimensions before starting);
+S#105 M3 (Spindle speed, Clockwise spin TBD);
+;
 #131=0.0 (depthMilled starts zero'd out);
 WHILE [#131 LT #102] DO1
   #130=0.0 (width starts zero'd out);
-  IF [ [#131-#103] LE #103]
+  IF [ [#102-#131] GE #103]
     THEN
       G01 Z-#103 (cut 1/16th inch) ;
   ELSE
@@ -37,15 +38,17 @@ WHILE [#131 LT #102] DO1
   WHILE [#130 LT #100] DO2
     G01 Y[-#101] F#106 (move/cut Y axis DOWN for length, at feed-rate of 100mm(inches)?/minute); 
     G01 X#132 (cut X-over by diameter of tool);
+    #130=[#130 + #132] (widthDone = widthDone + diameter of tool);
     G01 Y[#101] (cut Y axis UP length  );
     G01 X#132 (cut X-over diameter of tool);
-    #130=[#130 + #132 + #132] (widthDone = widthDone + diameter of tool);
+    #130=[#130 + #132] (widthDone = widthDone + diameter of tool);
   END2
 #131=[#131+#103] (depthMilled=depthMilled+depthEachPass);
 G00 Z[#102+3](lift up  a bit);
 G00 X-#100 Y#101  (rapid move the tool into position, start back at top right of board);
 G00 Z[-#102-3] (drop back down);
 END1
+;
 (wrap it up);
 Z#102;
 Z12;
