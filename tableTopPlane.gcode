@@ -8,8 +8,8 @@
 (Set dimensions below:);
 #100=36.0 (width of board in inches x-axis);
 #101=60.0 (length of board in inches y-axis);
-#102=7.25 (totalDepth to take DOWN z-axis, say 1/4");
-#103=1.0625 (depthEachPass, say 1/16");
+#102=0.25 (totalDepth to take DOWN z-axis, say 1/4");
+#103=0.0625 (depthEachPass, say 1/16");
 #104=1.0 (radius of tool bit);
 #105=700 (spindle rpm);
 #106=1 (feedRate);
