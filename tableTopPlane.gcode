@@ -55,7 +55,7 @@ END1
 ;
 (wrap it up);
 G0 Z#102;
-G0 Z12;
+G0 Z2;
 M05;
 N425 M22;
 G91;
