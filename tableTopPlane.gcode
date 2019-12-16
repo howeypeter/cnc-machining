@@ -16,9 +16,9 @@
 #106=62.5 (feedRate);
 ;
 
-G20 (G20 for Imperial G21 Metric);
+// G20 (G20 for Imperial G21 Metric);
 G90 (absolute position mode);
-G40 P[#104/2] (no offset, P#104/2 is tool radius cutting );
+// G40 P[#104/2] (no offset, P#104/2 is tool radius cutting );
 N1 G00 X139.1 Y0.7898 (rapid move the tool into position, start at top right of board dimensions TBD);
 G91 (relative X-axis mode);
 N15 M90;
@@ -34,8 +34,8 @@ S#105 M3 (Spindle speed, Clockwise spin TBD);
 #131=0.0 (depthMilled starts zero'd out);
 WHILE [#131 LT #102] DO1
   #130=0.0 (width starts zero'd out);
-  IF [ [#102-#131] GE #103] THEN #1=#103;
-  IF [ [#102-#131] LT #103] THEN #1=[#102-#131];
+  IF [ [#102-#131] >= #103] THEN #1=#103;
+  IF [ [#102-#131] < #103] THEN #1=[#102-#131];
   G01 Z-#1 F#106 (cut 1/16th inch) ;
   
 
